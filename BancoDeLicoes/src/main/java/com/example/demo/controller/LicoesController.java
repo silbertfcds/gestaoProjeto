@@ -65,9 +65,9 @@ public class LicoesController {
 		return mv;
 	}
 
-	@RequestMapping(value="/delete/{codigo}", method = RequestMethod.DELETE)
+	@RequestMapping(value="/delete/{codigo}", method = RequestMethod.GET)
 	public String excluir(@PathVariable Long codigo, RedirectAttributes attributes) {
-		licaoDao.delete(codigo);
+		licaoDao.delete(licaoDao.findOne(codigo));
 		attributes.addFlashAttribute("mensagem", "Lição excluída com sucesso!");
 
 		return "redirect:/licoes/pesquisar";
