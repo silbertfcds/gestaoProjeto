@@ -21,10 +21,10 @@
 
 	<div class="container-fluid">
 	
-		<!-- <div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" >
+		<div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" >
 			<button type="button" class="close" data-dismiss="alert" ><span aria-hidden="true">&times;</span></button>
 			<span th:text="${mensagem}"></span>
-		</div> -->
+		</div>
 	
 		<form method="POST" th:object="${licao}" class="form-vertical  js-form-loading" th:action="@{/licoes/novo}">
 			<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
@@ -40,16 +40,16 @@
 			<div class="row">
 				<div class="col-sm-6  form-group">
 					<label for="nomeProjeto" class="control-label">Nome do projeto</label>
-					<input id="nomeProjeto" type="text" class="form-control" />
+					<input id="nomeProjeto" type="text" class="form-control" th:field="*{projeto}"/>
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="col-sm-6  form-group">
 					<label for="tipo" class="control-label">Qualificação</label>
-					<select id="tipo" class="form-control">
+					<select id="tipo" class="form-control" th:field="*{tipo}">
 						<option value="">Selecione o tipo</option>
-						<!-- <option th:each="Tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option> -->
+						<option th:each="tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option>
 					</select>
 				</div>
 				<div class="col-sm-6  form-group">

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,16 +49,14 @@ public class LicoesController {
 		return new ModelAndView("redirect:/licoes/novo");
 	}
 	
-	@RequestMapping
-	public ModelAndView pesquisar() {
+	@RequestMapping("/pesquisar")
+	public ModelAndView listagem() {
 		List<Licao> todasLicoes = licaoDao.findAll();
-		ModelAndView mv = new ModelAndView("PesquisaLicoes");
+		ModelAndView mv = new ModelAndView("/licao/ListagemLicoes");
 		mv.addObject("licoes", todasLicoes);
-
 		return mv;
-
 	}
-
+	
 	@RequestMapping("{codigo}")
 	public ModelAndView edicao(@PathVariable("codigo") Licao licao) {
 		ModelAndView mv = new ModelAndView("/licao/CadastroLicao"); 
@@ -66,12 +65,12 @@ public class LicoesController {
 		return mv;
 	}
 
-	@RequestMapping(value="{codigo}", method = RequestMethod.DELETE)
+	@RequestMapping(value="/delete/{codigo}", method = RequestMethod.DELETE)
 	public String excluir(@PathVariable Long codigo, RedirectAttributes attributes) {
 		licaoDao.delete(codigo);
-		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
+		attributes.addFlashAttribute("mensagem", "Lição excluída com sucesso!");
 
-		return "redirect:/titulos";
+		return "redirect:/licoes/pesquisar";
 
 	}
 

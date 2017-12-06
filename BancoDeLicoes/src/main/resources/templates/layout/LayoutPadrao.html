@@ -68,8 +68,8 @@
           			</a>
 	        		</li>
 	        		
-	        		<li class="aw-menu__item" sec:authorize-url="/licoes">
-          			<a th:href="@{/licoes}">
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/licoes/pesquisar}">
           				<i class="fa  fa-fw  fa-search"></i>
           				<span>Listagem de lições</span>
           			</a>
@@ -89,6 +89,7 @@
 </div>
 <script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 <script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+<!-- <script th:src="@{/javascripts/gestaoProjeto.js}"></script> -->
 
 <th:block layout:fragment="javascript-extra"></th:block>
 

@@ -19,6 +19,9 @@ public class Licao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@NotBlank(message = "Projeto é obrigatório")
+	private String projeto;
+	
 	@NotBlank(message = "Texto é obrigatório")
 	private String texto;
 
@@ -48,6 +51,14 @@ public class Licao {
 
 	public void setTipo(TipoLicao tipo) {
 		this.tipo = tipo;
+	}
+	
+	public String getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(String projeto) {
+		this.projeto = projeto;
 	}
 
 	@Override
