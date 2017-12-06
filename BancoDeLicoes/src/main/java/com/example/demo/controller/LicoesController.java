@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,10 +32,12 @@ public class LicoesController {
 	@Autowired
 	private LicaoService licaoService;
 	
+	private static final String CADASTRO_VIEW = "/licao/CadastroLicao";
+	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Licao licao) {
 		ModelAndView mv = new ModelAndView("/licao/CadastroLicao");
-		mv.addObject(new Licao());
+		mv.addObject("licao",licao);
 		return mv;
 	}
 	
@@ -73,7 +76,17 @@ public class LicoesController {
 		return "redirect:/licoes/pesquisar";
 
 	}
+	
+	/*@RequestMapping(value="/editar/{codigo}", method = RequestMethod.GET)
+	public String editar(@PathVariable Long codigo, RedirectAttributes attributes, ModelMap modelMap) {
+		modelMap.put("licao", licaoDao.findOne(codigo));
+		//licaoDao.delete(licaoDao.findOne(codigo));
+		attributes.addFlashAttribute("mensagem", "Lição editada com sucesso!");
 
+		return "redirect:/licoes/novo";
+
+	}*/
+	
 	@ModelAttribute("todosTipoLicao")
 	public List<TipoLicao> todosTipoLicao() {
 		return Arrays.asList(TipoLicao.values());
