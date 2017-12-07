@@ -5,7 +5,7 @@
 	layout:decorator="layout/LayoutPadrao">
 	
 <head>
-	<title>Listagem de categorias</title>
+	<title>Listagem de projetos</title>
 </head>
 
 <body>
@@ -16,14 +16,14 @@
 			<div class="row">
 				<div class="col-xs-10">
 					<h1>
-						Listagem de Categorias
+						Listagem de Projetos
 					</h1>
 				</div>
 			
 				<div class="col-xs-2">
 					<div class="aw-page-header-controls">
-						<a class="btn btn-primary" th:href="@{/categorias/novo}">
-							<i class="fa  fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Nova categoria</span>
+						<a class="btn btn-primary" th:href="@{/projetos/novo}">
+							<i class="fa  fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Nova projeto</span>
 						</a>
 					</div>
 				</div>
@@ -49,23 +49,23 @@
 				</thead>
 				
 				<tbody>
-					<tr th:each="categoria : ${categorias}">
-						<td th:text="${categoria.descricao}"></td>
+					<tr th:each="projeto : ${projetos}">
+						<td th:text="${projeto.descricao}"></td>
 						<td class="text-center">
 							<a class="btn btn-link btn-xs"
-								th:href="@{/categorias/{codigo}(codigo=${categoria.codigo})}"
+								th:href="@{/projetos/{codigo}(codigo=${projeto.codigo})}"
 								title="Editar" rel="tooltip" data-placement="top"> <span
 								class="glyphicon glyphicon-pencil"></span></a>
 							<a class="btn btn-link btn-xs" 
-		   								th:href="@{/categorias/delete/{codigo}(codigo=${categoria.codigo})}"
+		   								th:href="@{/projetos/delete/{codigo}(codigo=${projeto.codigo})}"
 		   								title="Excluir" rel="tooltip" data-placement="top" onclick="return confirm('tem certeza que deseja excluir?')">
 		   							<span class="glyphicon glyphicon-remove"></span>
 							</a>
 						</td>
 					</tr>
 					
-					<tr th:if="${categorias.empty}">
-						<td colspan="6">Nenhuma categoria cadastrada</td>
+					<tr th:if="${projetos.empty}">
+						<td colspan="6">Nenhuma projeto cadastrada</td>
 					</tr>
 					
 					</tbody>

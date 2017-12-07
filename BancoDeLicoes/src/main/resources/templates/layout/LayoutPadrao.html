@@ -61,12 +61,35 @@
 	
 	    	<nav class="aw-menu  js-menu">
 	      		<ul class="aw-menu__list">
+	      		
+	      			<li class="aw-menu__item">
+          			<a th:href="@{/projetos/novo}">
+          				<i class="fa  fa-fw  fa-plus-circle"></i>
+          				<span>Novo projeto</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/projetos/pesquisar}">
+          				<i class="fa  fa-fw  fa-search"></i>
+          				<span>Listagem de projetos</span>
+          			</a>
+	        		</li>
+	      		
 	      			<li class="aw-menu__item">
           			<a th:href="@{/categorias/novo}">
           				<i class="fa  fa-fw  fa-plus-circle"></i>
           				<span>Nova categoria</span>
           			</a>
 	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/categorias/pesquisar}">
+          				<i class="fa  fa-fw  fa-search"></i>
+          				<span>Listagem de categorias</span>
+          			</a>
+	        		</li>
+	        		
 	        		<li class="aw-menu__item">
           			<a th:href="@{/licoes/novo}">
           				<i class="fa  fa-fw  fa-plus-circle"></i>
