@@ -66,7 +66,9 @@ public class Licao {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((projeto == null) ? 0 : projeto.hashCode());
 		result = prime * result + ((texto == null) ? 0 : texto.hashCode());
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
 
@@ -84,13 +86,20 @@ public class Licao {
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		if (projeto == null) {
+			if (other.projeto != null)
+				return false;
+		} else if (!projeto.equals(other.projeto))
+			return false;
 		if (texto == null) {
 			if (other.texto != null)
 				return false;
 		} else if (!texto.equals(other.texto))
 			return false;
+		if (tipo != other.tipo)
+			return false;
 		return true;
 	}
-	
+
 	
 }

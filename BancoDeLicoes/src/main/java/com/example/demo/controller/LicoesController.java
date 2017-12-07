@@ -1,7 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -46,6 +51,45 @@ public class LicoesController {
 		licaoService.salvar(licao);
 		attributes.addFlashAttribute("mensagem", "Lição salva com sucesso!");
 		return new ModelAndView("redirect:/licoes/novo");
+	}
+	
+	public List<Licao> buscaPorFiltros(Licao licao, List<Licao> lista) {
+		List<Licao> filtrada = new ArrayList<>();
+		if(licao.getProjeto()!="" && licao.getTipo()!=null) {
+			return filtrada =  lista.stream()
+					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().toUpperCase().equals(licao.getProjeto().toUpperCase()))
+					.collect(Collectors.toList());
+		}else if(licao.getTipo()!=null) {
+			return filtrada =  lista.stream()
+					.filter(l->l.getTipo().equals(licao.getTipo()))
+					.collect(Collectors.toList());
+		}else if(licao.getProjeto()!="") {
+			return filtrada =  lista.stream()
+					.filter(l->l.getProjeto().toUpperCase().equals(licao.getProjeto().toUpperCase()))
+					.collect(Collectors.toList());
+		}
+		return null;
+	}
+	
+	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
+	public ModelAndView buscar(Licao licao, RedirectAttributes attributes) {
+		List<Licao> todasLicoes = licaoDao.findAll();
+		List<Licao> filtradas = new ArrayList<>();
+		ModelAndView mv = new ModelAndView("/licao/ListagemLicoes");
+		
+		if(!todasLicoes.isEmpty() && (licao.getProjeto()!="" || licao.getTipo()!=null)) {
+			filtradas = buscaPorFiltros(licao, todasLicoes);
+			if(filtradas.isEmpty()) {
+				attributes.addFlashAttribute("mensagem", "Filtros não retornou resultados");
+				return new ModelAndView("redirect:/licoes/pesquisar");
+			}
+		}else {
+			return new ModelAndView("redirect:/licoes/pesquisar");
+		}
+		
+		mv.addObject("licoes", filtradas);
+		
+		return mv;
 	}
 	
 	@RequestMapping("/pesquisar")
