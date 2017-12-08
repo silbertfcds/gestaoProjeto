@@ -52,17 +52,17 @@ public class LicoesController {
 	
 	public List<Licao> buscaPorFiltros(Licao licao, List<Licao> lista) {
 		List<Licao> filtrada = new ArrayList<>();
-		if(licao.getProjeto()!="" && licao.getTipo()!=null) {
+		if(licao.getProjeto().getDescricao()!="" && licao.getTipo()!=null) {
 			return filtrada =  lista.stream()
-					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().toUpperCase().equals(licao.getProjeto().toUpperCase()))
+					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().getDescricao().toUpperCase().equals(licao.getProjeto().getDescricao().toUpperCase()))
 					.collect(Collectors.toList());
 		}else if(licao.getTipo()!=null) {
 			return filtrada =  lista.stream()
 					.filter(l->l.getTipo().equals(licao.getTipo()))
 					.collect(Collectors.toList());
-		}else if(licao.getProjeto()!="") {
+		}else if(licao.getProjeto().getDescricao()!="") {
 			return filtrada =  lista.stream()
-					.filter(l->l.getProjeto().toUpperCase().equals(licao.getProjeto().toUpperCase()))
+					.filter(l->l.getProjeto().getDescricao().toUpperCase().equals(licao.getProjeto().getDescricao().toUpperCase()))
 					.collect(Collectors.toList());
 		}
 		return null;
@@ -74,7 +74,7 @@ public class LicoesController {
 		List<Licao> filtradas = new ArrayList<>();
 		ModelAndView mv = new ModelAndView("/licao/ListagemLicoes");
 		
-		if(!todasLicoes.isEmpty() && (licao.getProjeto()!="" || licao.getTipo()!=null)) {
+		if(!todasLicoes.isEmpty() && (licao.getProjeto().getDescricao()!="" || licao.getTipo()!=null)) {
 			filtradas = buscaPorFiltros(licao, todasLicoes);
 			if(filtradas.isEmpty()) {
 				attributes.addFlashAttribute("mensagem", "Filtros não retornou resultados");

@@ -6,8 +6,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.persistence.ForeignKey;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -19,15 +22,18 @@ public class Licao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@NotBlank(message = "Projeto é obrigatório")
-	private String projeto;
-	
 	@NotBlank(message = "Texto é obrigatório")
 	private String texto;
 
 	@NotNull(message = "Tipo é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private TipoLicao tipo;
+	
+	@ManyToOne @JoinColumn(name="id_projeto", nullable=false, foreignKey = @ForeignKey(name = "fk_licao_projeto"))
+	private Projeto projeto;
+	
+	@ManyToOne @JoinColumn(name="id_categoria", nullable=false, foreignKey = @ForeignKey(name = "fk_licao_categoria"))
+	private Categoria categoria;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -53,12 +59,20 @@ public class Licao {
 		this.tipo = tipo;
 	}
 	
-	public String getProjeto() {
+	public Projeto getProjeto() {
 		return projeto;
 	}
 
-	public void setProjeto(String projeto) {
+	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 	@Override
