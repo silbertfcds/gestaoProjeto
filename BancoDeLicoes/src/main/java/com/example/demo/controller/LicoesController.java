@@ -101,7 +101,7 @@ public class LicoesController {
 		List<Licao> filtradas = new ArrayList<>();
 		ModelAndView mv = new ModelAndView("/licao/ListagemLicoes");
 		
-		if(!todasLicoes.isEmpty() && (licao.getProjeto()!=null || licao.getTipo()!=null)) {
+		if(!todasLicoes.isEmpty() && (licao.getProjeto()!=null || licao.getTipo()!=null) || licao.getCategoria()!=null) {
 			filtradas = buscaPorFiltros(licao, todasLicoes);
 			if(filtradas.isEmpty()) {
 				attributes.addFlashAttribute("mensagem", "Filtros não retornou resultados");
