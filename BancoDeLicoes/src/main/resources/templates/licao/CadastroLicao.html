@@ -21,10 +21,10 @@
 
 	<div class="container-fluid">
 	
-		<!-- <div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" >
+		<div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" >
 			<button type="button" class="close" data-dismiss="alert" ><span aria-hidden="true">&times;</span></button>
 			<span th:text="${mensagem}"></span>
-		</div> -->
+		</div>
 	
 		<form method="POST" th:object="${licao}" class="form-vertical  js-form-loading" th:action="@{/licoes/novo}">
 			<div class="alert  alert-danger  alert-dismissible" role="alert" th:if="${#fields.hasAnyErrors()}">
@@ -36,31 +36,39 @@
 					</div>
 				</th:block>
 			</div>
-			
+			<input type="hidden" th:field="*{codigo}"/>
 			<div class="row">
 				<div class="col-sm-6  form-group">
-					<label for="nomeProjeto" class="control-label">Nome do projeto</label>
-					<input id="nomeProjeto" type="text" class="form-control" />
+					<label for="nomeProjeto" class="control-label">Projeto</label>
+					<select id="nomeProjeto" class="form-control" th:field="*{projeto}">
+						<option value="">Selecione o projeto</option>
+						<option th:each="projeto : ${todosProjeto}" th:value="${projeto.codigo}" th:text="${projeto.descricao}"></option>
+					</select>
 				</div>
 			</div>
 			
 			<div class="row">
 				<div class="col-sm-6  form-group">
 					<label for="tipo" class="control-label">Qualificação</label>
-					<select id="tipo" class="form-control">
+					<select id="tipo" class="form-control" th:field="*{tipo}">
 						<option value="">Selecione o tipo</option>
-						<!-- <option th:each="Tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option> -->
+						<option th:each="tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option>
 					</select>
 				</div>
 				<div class="col-sm-6  form-group">
 					<label for="categoria" class="control-label">Categoria</label>
-					<select id="categoria" class="form-control">
+					<select id="categoria" class="form-control" th:field="*{categoria}" >
 						<option value="">Selecione a categoria</option>
-						<!-- <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.descricao}"></option> -->
+						<option th:each="categoria : ${categorias}" th:value="${categoria.codigo}" th:text="${categoria.descricao}"></option>
 					</select>
 				</div>
 			</div>
-			
+			<div class="row">
+				<div class="col-sm-6  form-group">
+					<label for="titulo" class="control-label">Título</label>
+					<input id="titulo" type="text" class="form-control" th:field="*{titulo}"/>
+				</div>
+			</div>
 			<div class="form-group" th:classappend="${#fields.hasErrors('texto')} ? has-error">
 				<label for="nome" class="control-label">Texto</label>
 				<textarea rows="4" cols="50" class="form-control" th:field="*{texto}"></textarea>

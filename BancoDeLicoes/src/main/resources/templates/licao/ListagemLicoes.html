@@ -5,7 +5,7 @@
 	layout:decorator="layout/LayoutPadrao">
 	
 <head>
-	<title>Listagem de vinhos</title>
+	<title>Listagem de lições</title>
 </head>
 
 <body>
@@ -16,14 +16,14 @@
 			<div class="row">
 				<div class="col-xs-10">
 					<h1>
-						Listagem de vinhos
+						Listagem de Lições
 					</h1>
 				</div>
 			
 				<div class="col-xs-2">
 					<div class="aw-page-header-controls">
-						<a class="btn btn-primary" th:href="@{/vinhos/novo}">
-							<i class="fa  fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Novo vinho</span>
+						<a class="btn btn-primary" th:href="@{/licoes/novo}">
+							<i class="fa  fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Nova lição</span>
 						</a>
 					</div>
 				</div>
@@ -32,35 +32,101 @@
 	</div>
 
 	<div class="container-fluid">
+	
+		<div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" >
+			<button type="button" class="close" data-dismiss="alert" ><span aria-hidden="true">&times;</span></button>
+			<span th:text="${mensagem}"></span>
+		</div>
+		
+		<form method="POST" th:object="${licao}" class="form-vertical  js-form-loading" th:action="@{/licoes/buscar}">
+		
+			<div class="panel panel-default">
+			  <div class="panel-heading">Filtros de busca</div>
+			  <div class="panel-body">
+			    <div class="col-sm-3  form-group">
+					<label for="filtroProjeto" class="control-label">Projeto</label>
+					<select id="filtroProjeto" class="form-control" name="projeto">
+						<option value="">Selecione o projeto</option>
+						<option th:each="projeto : ${todosProjeto}" th:value="${projeto.codigo}" th:text="${projeto.descricao}"></option>
+					</select>
+				</div>
+				<div class="col-sm-3  form-group">
+					<label for="filtroTipo" class="control-label">Qualificação</label>
+					<select id="filtroTipo" class="form-control" name="tipo">
+						<option value="">Selecione o tipo</option>
+						<option th:each="tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option>
+					</select>
+				</div>
+				<div class="col-sm-3  form-group">
+					<label for="filtroCategoria" class="control-label">Categoria</label>
+					<select id="filtroCategoria" class="form-control" name="categoria" >
+						<option value="">Selecione a categoria</option>
+						<option th:each="categoria : ${categorias}" th:value="${categoria.codigo}" th:text="${categoria.descricao}"></option>
+					</select>
+				</div>
+				<div class="col-sm-2  form-group">
+					<!-- <div class="form-group">
+						<button class="btn  btn-primary" type="submit"><i class="fa  fa-fw  fa-search"></i>Salvar</button>
+					</div> -->
+					<div class="aw-page-header-controls">
+						<button class="btn  btn-primary" type="submit"><i class="fa  fa-fw  fa-search"></i>Buscar</button>
+					</div>
+				</div>
+			  </div>
+			</div>
+			
+		</form>
+		
 		<div class="table-responsive">
-			<table id="tabela-produtos" class="table  table-striped  table-bordered  table-hover  table-condensed  js-sticky-table">
+			<table id="tabela-produtos">
 				<thead class="aw-table-header-solid">
 					<tr>
-						<th>Código</th>
-						<th>Nome</th>
-						<th>Tipo</th>
-						<th>Safra</th>
-						<th>Volume</th>
-						<th>Valor</th>
+						<th></th>
+						<th></th>
+						
 					</tr>
 				</thead>
+				
 				<tbody>
-					<tr th:each="vinho : ${vinhos}">
-						<td th:text="${vinho.codigo}">1</td>
-						<td><a th:href="@{/vinhos/{codigo}(codigo=${vinho.codigo})}" th:text="${vinho.nome}">Viña Amalia Dos Fincas Malbec</a></td>
-						<td th:text="${vinho.tipo.descricao}">Tinto</td>
-						<td th:text="${vinho.safra}">2013</td>
-						<td th:text="${vinho.volume}">750ml</td>
-						<td th:text="${vinho.valor}">R$55,00</td>
-					</tr>
-					<tr th:if="${vinhos.empty}">
-						<td colspan="6">Nenhum vinho cadastrado</td>
-					</tr>
-				</tbody>
+					<tr th:each="licao : ${licoes}" >
+	                    <td>
+	                    	<h1 th:text="${licao.titulo}"></h1>
+	                        <blockquote >
+	                            <p class="markHighlight" th:text="${licao.texto}"></p>
+	                            <small style="font-size: 16px"><b>Projeto: </b><span th:text="${licao.projeto.descricao}"></span><span> | </span><b>Tipo de lição: </b><span th:text="${licao.tipo.descricao}"></span><span> | </span><b>Categoria: </b><span th:text="${licao.categoria.descricao}"></span></small>
+	                        </blockquote>
+	                    </td>
+	                </tr>
+	                
+					<!--<tr th:each="licao : ${licoes}">
+						<td th:text="${licao.projeto}"></td>
+						<td th:text="${licao.texto}"></td>
+						<td th:text="${licao.tipo.descricao}"></td>
+						<td class="text-center">
+							<a class="btn btn-link btn-xs"
+								th:href="@{/licoes/{codigo}(codigo=${licao.codigo})}"
+								title="Editar" rel="tooltip" data-placement="top"> <span
+								class="glyphicon glyphicon-pencil"></span></a>
+							<a class="btn btn-link btn-xs" 
+		   								th:href="@{/licoes/delete/{codigo}(codigo=${licao.codigo})}"
+		   								title="Excluir" rel="tooltip" data-placement="top" onclick="return confirm('tem certeza que deseja excluir?')">
+		   							<span class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>
+					</tr> -->
+					
+					<!-- <tr th:if="${licoes.empty}">
+						<td colspan="6">Nenhuma lição cadastrada</td>
+					</tr> -->
+					
+					</tbody>
 			</table>
 		</div>
+		
+		
+		<!-- <div layout:include="DialogoConfirmacaoExclusao"></div> -->
 	</div>
-
+	
 </section>
 </body>
 </html>

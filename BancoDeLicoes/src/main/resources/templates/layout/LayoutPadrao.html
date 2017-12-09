@@ -61,6 +61,35 @@
 	
 	    	<nav class="aw-menu  js-menu">
 	      		<ul class="aw-menu__list">
+	      		
+	      			<li class="aw-menu__item">
+          			<a th:href="@{/projetos/novo}">
+          				<i class="fa  fa-fw  fa-plus-circle"></i>
+          				<span>Novo projeto</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/projetos/pesquisar}">
+          				<i class="fa  fa-fw  fa-search"></i>
+          				<span>Listagem de projetos</span>
+          			</a>
+	        		</li>
+	      		
+	      			<li class="aw-menu__item">
+          			<a th:href="@{/categorias/novo}">
+          				<i class="fa  fa-fw  fa-plus-circle"></i>
+          				<span>Nova categoria</span>
+          			</a>
+	        		</li>
+	        		
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/categorias/pesquisar}">
+          				<i class="fa  fa-fw  fa-search"></i>
+          				<span>Listagem de categorias</span>
+          			</a>
+	        		</li>
+	        		
 	        		<li class="aw-menu__item">
           			<a th:href="@{/licoes/novo}">
           				<i class="fa  fa-fw  fa-plus-circle"></i>
@@ -68,8 +97,8 @@
           			</a>
 	        		</li>
 	        		
-	        		<li class="aw-menu__item" sec:authorize-url="/licoes">
-          			<a th:href="@{/licoes}">
+	        		<li class="aw-menu__item">
+          			<a th:href="@{/licoes/pesquisar}">
           				<i class="fa  fa-fw  fa-search"></i>
           				<span>Listagem de lições</span>
           			</a>
@@ -89,6 +118,7 @@
 </div>
 <script th:src="@{/layout/javascripts/vendors.min.js}"></script>
 <script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+<!-- <script th:src="@{/javascripts/gestaoProjeto.js}"></script> -->
 
 <th:block layout:fragment="javascript-extra"></th:block>
 

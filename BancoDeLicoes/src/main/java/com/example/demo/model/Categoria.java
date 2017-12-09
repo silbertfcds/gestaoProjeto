@@ -11,13 +11,13 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 @Table(name = "categoria")
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@NotBlank(message = "Categoria é obrigatório")
-	private String categoria;
+	@NotBlank(message = "Descrição é obrigatório")
+	private String descricao;
 
 	public Long getCodigo() {
 		return codigo;
@@ -27,20 +27,20 @@ public class Categoria {
 		this.codigo = codigo;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		return result;
 	}
 
@@ -53,17 +53,18 @@ public class Categoria {
 		if (getClass() != obj.getClass())
 			return false;
 		Categoria other = (Categoria) obj;
-		if (categoria == null) {
-			if (other.categoria != null)
-				return false;
-		} else if (!categoria.equals(other.categoria))
-			return false;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
 		return true;
 	}
+	
 	
 }

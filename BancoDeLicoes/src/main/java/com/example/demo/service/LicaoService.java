@@ -16,4 +16,12 @@ public class LicaoService {
 		// Escrever regras de negócio...
 		this.licaoDao.save(licao);
 	}
+	
+	public void buscarPorCodigo(Long codigo) {
+		licaoDao.findOne(codigo);
+	}
+	
+	public void excluir(Licao licao) {
+		licaoDao.delete(licao);;
+	}
 }
