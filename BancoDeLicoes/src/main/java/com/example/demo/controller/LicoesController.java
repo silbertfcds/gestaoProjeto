@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.model.Categoria;
 import com.example.demo.model.Licao;
+import com.example.demo.model.Projeto;
 import com.example.demo.model.TipoLicao;
+import com.example.demo.repository.CategoriaDao;
 import com.example.demo.repository.LicaoDao;
+import com.example.demo.repository.ProjetoDao;
 import com.example.demo.service.LicaoService;
 
 @Controller
@@ -30,12 +34,20 @@ public class LicoesController {
 	private LicaoDao licaoDao;
 	
 	@Autowired
+	private CategoriaDao categoriaDao;	
+	
+	@Autowired
+	private ProjetoDao projetoDao;
+	
+	@Autowired
 	private LicaoService licaoService;
 	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Licao licao) {
 		ModelAndView mv = new ModelAndView("/licao/CadastroLicao");
 		mv.addObject("licao",licao);
+		mv.addObject("categoria", new Categoria());
+		mv.addObject("projeto", new Projeto());
 		return mv;
 	}
 	
@@ -51,18 +63,33 @@ public class LicoesController {
 	}
 	
 	public List<Licao> buscaPorFiltros(Licao licao, List<Licao> lista) {
-		List<Licao> filtrada = new ArrayList<>();
-		if(licao.getProjeto().getDescricao()!="" && licao.getTipo()!=null) {
-			return filtrada =  lista.stream()
-					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().getDescricao().toUpperCase().equals(licao.getProjeto().getDescricao().toUpperCase()))
+		if(licao.getProjeto()!=null && licao.getTipo()!=null && licao.getCategoria()!=null) {
+			return lista.stream()
+					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+					.collect(Collectors.toList());
+		}else if(licao.getProjeto()!=null && licao.getTipo()!=null) {
+			return lista.stream()
+					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getTipo().equals(licao.getTipo()))
+					.collect(Collectors.toList());
+		}else if(licao.getProjeto()!=null && licao.getCategoria()!=null) {
+			return lista.stream()
+					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+					.collect(Collectors.toList());
+		}else if(licao.getTipo()!=null && licao.getCategoria()!=null) {
+			return lista.stream()
+					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+					.collect(Collectors.toList());
+		}else if(licao.getProjeto()!=null) {
+			return lista.stream()
+					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo())
 					.collect(Collectors.toList());
 		}else if(licao.getTipo()!=null) {
-			return filtrada =  lista.stream()
+			return lista.stream()
 					.filter(l->l.getTipo().equals(licao.getTipo()))
 					.collect(Collectors.toList());
-		}else if(licao.getProjeto().getDescricao()!="") {
-			return filtrada =  lista.stream()
-					.filter(l->l.getProjeto().getDescricao().toUpperCase().equals(licao.getProjeto().getDescricao().toUpperCase()))
+		}else if(licao.getCategoria()!=null) {
+			return lista.stream()
+					.filter(l->l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
 					.collect(Collectors.toList());
 		}
 		return null;
@@ -74,7 +101,7 @@ public class LicoesController {
 		List<Licao> filtradas = new ArrayList<>();
 		ModelAndView mv = new ModelAndView("/licao/ListagemLicoes");
 		
-		if(!todasLicoes.isEmpty() && (licao.getProjeto().getDescricao()!="" || licao.getTipo()!=null)) {
+		if(!todasLicoes.isEmpty() && (licao.getProjeto()!=null || licao.getTipo()!=null)) {
 			filtradas = buscaPorFiltros(licao, todasLicoes);
 			if(filtradas.isEmpty()) {
 				attributes.addFlashAttribute("mensagem", "Filtros não retornou resultados");
@@ -118,4 +145,17 @@ public class LicoesController {
 	public List<TipoLicao> todosTipoLicao() {
 		return Arrays.asList(TipoLicao.values());
 	}
+	
+	@ModelAttribute("categorias")
+	public List<Categoria> categorias() {
+		List<Categoria> lista = categoriaDao.findAll();
+		return lista;
+	}
+	
+	@ModelAttribute("todosProjeto")
+	public List<Projeto> todosProjeto() {
+		List<Projeto> lista = projetoDao.findAll();
+		return lista;
+	}
+	
 }

@@ -43,15 +43,25 @@
 			<div class="panel panel-default">
 			  <div class="panel-heading">Filtros de busca</div>
 			  <div class="panel-body">
-			    <div class="col-sm-4  form-group">
-					<label for="filtroProjeto" class="control-label">Nome do projeto</label>
-					<input id="filtroProjeto" type="text" class="form-control" placeholder="Nome do Projeto" name="projeto"/>
+			    <div class="col-sm-3  form-group">
+					<label for="filtroProjeto" class="control-label">Projeto</label>
+					<select id="filtroProjeto" class="form-control" name="projeto">
+						<option value="">Selecione o projeto</option>
+						<option th:each="projeto : ${todosProjeto}" th:value="${projeto.codigo}" th:text="${projeto.descricao}"></option>
+					</select>
 				</div>
-				<div class="col-sm-4  form-group">
+				<div class="col-sm-3  form-group">
 					<label for="filtroTipo" class="control-label">Qualificação</label>
 					<select id="filtroTipo" class="form-control" name="tipo">
 						<option value="">Selecione o tipo</option>
 						<option th:each="tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option>
+					</select>
+				</div>
+				<div class="col-sm-3  form-group">
+					<label for="filtroCategoria" class="control-label">Categoria</label>
+					<select id="filtroCategoria" class="form-control" name="categoria" >
+						<option value="">Selecione a categoria</option>
+						<option th:each="categoria : ${categorias}" th:value="${categoria.codigo}" th:text="${categoria.descricao}"></option>
 					</select>
 				</div>
 				<div class="col-sm-2  form-group">
@@ -80,10 +90,10 @@
 				<tbody>
 					<tr th:each="licao : ${licoes}" >
 	                    <td>
-	                    	<h1>Titulo</h1>
+	                    	<h1 th:text="${licao.titulo}"></h1>
 	                        <blockquote >
 	                            <p class="markHighlight" th:text="${licao.texto}"></p>
-	                            <small style="font-size: 16px"><b>Projeto: </b><span th:text="${licao.projeto}"></span><span> | </span><b>Tipo de lição: </b><span th:text="${licao.tipo.descricao}"></span></small>
+	                            <small style="font-size: 16px"><b>Projeto: </b><span th:text="${licao.projeto.descricao}"></span><span> | </span><b>Tipo de lição: </b><span th:text="${licao.tipo.descricao}"></span><span> | </span><b>Categoria: </b><span th:text="${licao.categoria.descricao}"></span></small>
 	                        </blockquote>
 	                    </td>
 	                </tr>

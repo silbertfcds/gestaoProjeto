@@ -22,6 +22,9 @@ public class Licao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@NotBlank(message = "Título é obrigatório")
+	private String titulo;
+	
 	@NotBlank(message = "Texto é obrigatório")
 	private String texto;
 
@@ -73,6 +76,14 @@ public class Licao {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	@Override
