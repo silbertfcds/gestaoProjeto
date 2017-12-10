@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -135,6 +136,13 @@ public class LicoesController {
 				return lhs.getAvaliacao().compareTo(rhs.getAvaliacao());
 			}
 		});*/
+		
+		//ordenação
+		
+		//ou
+		/*todasLicoes = todasLicoes.stream()
+						.sorted(Comparator.comparing(Licao::getAvaliacao))
+						.collect(Collectors.toList());*/
 		
 		todasLicoes.sort((s1, s2)-> s1.getAvaliacao().compareTo(s2.getAvaliacao()));
 		
