@@ -43,25 +43,39 @@
 			<div class="panel panel-default">
 			  <div class="panel-heading">Filtros de busca</div>
 			  <div class="panel-body">
-			    <div class="col-sm-3  form-group">
+			    <div class="col-sm-2  form-group">
 					<label for="filtroProjeto" class="control-label">Projeto</label>
 					<select id="filtroProjeto" class="form-control" name="projeto">
 						<option value="">Selecione o projeto</option>
 						<option th:each="projeto : ${todosProjeto}" th:value="${projeto.codigo}" th:text="${projeto.descricao}"></option>
 					</select>
 				</div>
-				<div class="col-sm-3  form-group">
+				<div class="col-sm-2  form-group">
 					<label for="filtroTipo" class="control-label">Qualificação</label>
 					<select id="filtroTipo" class="form-control" name="tipo">
 						<option value="">Selecione o tipo</option>
 						<option th:each="tipo : ${todosTipoLicao}" th:value="${tipo}" th:text="${tipo.descricao}"></option>
 					</select>
 				</div>
-				<div class="col-sm-3  form-group">
+				<div class="col-sm-2  form-group">
 					<label for="filtroCategoria" class="control-label">Categoria</label>
 					<select id="filtroCategoria" class="form-control" name="categoria" >
 						<option value="">Selecione a categoria</option>
 						<option th:each="categoria : ${categorias}" th:value="${categoria.codigo}" th:text="${categoria.descricao}"></option>
+					</select>
+				</div>
+				<div class="col-sm-2  form-group">
+					<label for="filtroAvalicao" class="control-label">Avalição</label>
+					<select id="filtroAvalicao" class="form-control" name="avaliacao" >
+						<option value="">Selecione a avaliação</option>
+						<option value="SEMAVALIACAO">Sem avaliação</option>
+						<option value="HORRIVEL">Horrível</option>
+						<option value="MUITORUIM">Muito ruim</option>
+						<option value="RUIM">Ruim</option>
+						<option value="MEDIO">Médio</option>
+						<option value="BOM">Bom</option>
+						<option value="MUITOBOM">Muito bom</option>
+						<option value="PERFEITO">Perfeito</option>
 					</select>
 				</div>
 				<div class="col-sm-2  form-group">
@@ -90,10 +104,27 @@
 				<tbody>
 					<tr th:each="licao : ${licoes}" >
 	                    <td>
-	                    	<h1 th:text="${licao.titulo}"></h1>
+							<h1 th:text="${licao.titulo}" style="display: inline"></h1>
+                    		<a class="btn btn-link btn-xs"
+								th:href="@{/licoes/{codigo}(codigo=${licao.codigo})}"
+								title="Editar" rel="tooltip" >
+								<span class="glyphicon glyphicon-pencil"></span>
+							</a>
 	                        <blockquote >
 	                            <p class="markHighlight" th:text="${licao.texto}"></p>
-	                            <small style="font-size: 16px"><b>Projeto: </b><span th:text="${licao.projeto.descricao}"></span><span> | </span><b>Tipo de lição: </b><span th:text="${licao.tipo.descricao}"></span><span> | </span><b>Categoria: </b><span th:text="${licao.categoria.descricao}"></span></small>
+	                            <small style="font-size: 16px">
+	                            	<b>Projeto: </b>
+	                            	<span th:text="${licao.projeto.descricao}"></span>
+	                            	<span> | </span>
+	                            	<b>Tipo de lição: </b>
+	                            	<span th:text="${licao.tipo.descricao}"></span>
+	                            	<span> | </span>
+	                            	<b>Categoria: </b>
+	                            	<span th:text="${licao.categoria.descricao}"></span>
+	                            	<span> | </span>
+	                            	<b>Avaliação: </b>
+	                            	<span th:text="${licao.avaliacao.value}"></span>
+	                            </small>
 	                        </blockquote>
 	                    </td>
 	                </tr>

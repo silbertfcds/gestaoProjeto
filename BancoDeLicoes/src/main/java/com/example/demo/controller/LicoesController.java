@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,37 +64,47 @@ public class LicoesController {
 	}
 	
 	public List<Licao> buscaPorFiltros(Licao licao, List<Licao> lista) {
-		if(licao.getProjeto()!=null && licao.getTipo()!=null && licao.getCategoria()!=null) {
-			return lista.stream()
-					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
-					.collect(Collectors.toList());
-		}else if(licao.getProjeto()!=null && licao.getTipo()!=null) {
-			return lista.stream()
-					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getTipo().equals(licao.getTipo()))
-					.collect(Collectors.toList());
-		}else if(licao.getProjeto()!=null && licao.getCategoria()!=null) {
-			return lista.stream()
-					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
-					.collect(Collectors.toList());
-		}else if(licao.getTipo()!=null && licao.getCategoria()!=null) {
-			return lista.stream()
-					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
-					.collect(Collectors.toList());
-		}else if(licao.getProjeto()!=null) {
-			return lista.stream()
-					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo())
-					.collect(Collectors.toList());
-		}else if(licao.getTipo()!=null) {
-			return lista.stream()
-					.filter(l->l.getTipo().equals(licao.getTipo()))
-					.collect(Collectors.toList());
-		}else if(licao.getCategoria()!=null) {
-			return lista.stream()
-					.filter(l->l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
-					.collect(Collectors.toList());
-		}
-		return null;
+		return lista.stream()
+			.filter(l->l.getProjeto().getCodigo()==(   licao.getProjeto()!=null ? licao.getProjeto().getCodigo() : l.getProjeto().getCodigo()   ) )
+			.filter(l->l.getTipo().equals(   licao.getTipo()!=null? licao.getTipo() : l.getTipo()   ))
+			.filter(l->l.getCategoria().getCodigo()==(  licao.getCategoria()!=null ? licao.getCategoria().getCodigo() : l.getCategoria().getCodigo()   ) ) 
+			.filter(l->l.getAvaliacao()==(   licao.getAvaliacao()!=null ? licao.getAvaliacao() : l.getAvaliacao()   ))
+			.collect(Collectors.toList());
 	}
+	
+	
+//	public List<Licao> buscaPorFiltros(Licao licao, List<Licao> lista) {
+//		if(licao.getProjeto()!=null && licao.getTipo()!=null && licao.getCategoria()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+//					.collect(Collectors.toList());
+//		}else if(licao.getProjeto()!=null && licao.getTipo()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getTipo().equals(licao.getTipo()))
+//					.collect(Collectors.toList());
+//		}else if(licao.getProjeto()!=null && licao.getCategoria()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo() && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+//					.collect(Collectors.toList());
+//		}else if(licao.getTipo()!=null && licao.getCategoria()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getTipo().equals(licao.getTipo()) && l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+//					.collect(Collectors.toList());
+//		}else if(licao.getProjeto()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getProjeto().getCodigo()==licao.getProjeto().getCodigo())
+//					.collect(Collectors.toList());
+//		}else if(licao.getTipo()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getTipo().equals(licao.getTipo()))
+//					.collect(Collectors.toList());
+//		}else if(licao.getCategoria()!=null) {
+//			return lista.stream()
+//					.filter(l->l.getCategoria().getCodigo()==licao.getCategoria().getCodigo())
+//					.collect(Collectors.toList());
+//		}
+//		return null;
+//	}
 	
 	@RequestMapping(value = "/buscar", method = RequestMethod.POST)
 	public ModelAndView buscar(Licao licao, RedirectAttributes attributes) {
@@ -113,6 +124,21 @@ public class LicoesController {
 		
 		mv.addObject("licoes", filtradas);
 		
+		return mv;
+	}
+	
+	@RequestMapping("/rank")
+	public ModelAndView rank() {
+		List<Licao> todasLicoes = licaoDao.findAll();
+		todasLicoes.sort(new Comparator<Licao>(){
+			@Override
+			public int compare(Licao lhs, Licao rhs) {
+				return lhs.getAvaliacao().compareTo(rhs.getAvaliacao());
+			}
+		});
+		
+		ModelAndView mv = new ModelAndView("/licao/RankLicoes");
+		mv.addObject("licoes", todasLicoes);
 		return mv;
 	}
 	

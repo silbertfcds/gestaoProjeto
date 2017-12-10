@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/LayoutPadrao">
+	
+<head>
+	<title>Rank de lições</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>
+						Rank de Lições
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+	
+		<div class="alert  alert-success  alert-dismissible" role="alert" th:if="${not #strings.isEmpty(mensagem)}" >
+			<button type="button" class="close" data-dismiss="alert" ><span aria-hidden="true">&times;</span></button>
+			<span th:text="${mensagem}"></span>
+		</div>
+		
+		<div class="table-responsive">
+			<table id="tabela-produtos">
+				<thead class="aw-table-header-solid">
+					<tr>
+						<th></th>
+						<th></th>
+						
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="licao : ${licoes}" >
+	                    <td>
+	                    	<h1 th:text="${licao.titulo}"></h1>
+	                        <blockquote >
+	                            <p class="markHighlight" th:text="${licao.texto}"></p>
+	                            <small style="font-size: 16px">
+	                            	<b>Projeto: </b>
+	                            	<span th:text="${licao.projeto.descricao}"></span>
+	                            	<span> | </span>
+	                            	<b>Tipo de lição: </b>
+	                            	<span th:text="${licao.tipo.descricao}"></span>
+	                            	<span> | </span>
+	                            	<b>Categoria: </b>
+	                            	<span th:text="${licao.categoria.descricao}"></span>
+	                            	<span> | </span>
+	                            	<b>Avaliação: </b>
+	                            	<span th:text="${licao.avaliacao.value}"></span>
+	                            </small>
+	                        </blockquote>
+	                    </td>
+	                </tr>
+	                
+					<!--<tr th:each="licao : ${licoes}">
+						<td th:text="${licao.projeto}"></td>
+						<td th:text="${licao.texto}"></td>
+						<td th:text="${licao.tipo.descricao}"></td>
+						<td class="text-center">
+							<a class="btn btn-link btn-xs"
+								th:href="@{/licoes/{codigo}(codigo=${licao.codigo})}"
+								title="Editar" rel="tooltip" data-placement="top"> <span
+								class="glyphicon glyphicon-pencil"></span></a>
+							<a class="btn btn-link btn-xs" 
+		   								th:href="@{/licoes/delete/{codigo}(codigo=${licao.codigo})}"
+		   								title="Excluir" rel="tooltip" data-placement="top" onclick="return confirm('tem certeza que deseja excluir?')">
+		   							<span class="glyphicon glyphicon-remove"></span>
+							</a>
+						</td>
+					</tr> -->
+					
+					<!-- <tr th:if="${licoes.empty}">
+						<td colspan="6">Nenhuma lição cadastrada</td>
+					</tr> -->
+					
+					</tbody>
+			</table>
+		</div>
+		
+		
+		<!-- <div layout:include="DialogoConfirmacaoExclusao"></div> -->
+	</div>
+	
+</section>
+</body>
+</html>
