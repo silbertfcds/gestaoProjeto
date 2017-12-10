@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ public class Licao {
 	private String titulo;
 	
 	@NotBlank(message = "Texto é obrigatório")
+	@Lob
 	private String texto;
 
 	@NotNull(message = "Tipo é obrigatório")
