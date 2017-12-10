@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +67,7 @@ public class LicoesController {
 			.filter(l->l.getProjeto().getCodigo()==(   licao.getProjeto()!=null ? licao.getProjeto().getCodigo() : l.getProjeto().getCodigo()   ) )
 			.filter(l->l.getTipo().equals(   licao.getTipo()!=null? licao.getTipo() : l.getTipo()   ))
 			.filter(l->l.getCategoria().getCodigo()==(  licao.getCategoria()!=null ? licao.getCategoria().getCodigo() : l.getCategoria().getCodigo()   ) ) 
-			.filter(l->l.getAvaliacao()==(   licao.getAvaliacao()!=null ? licao.getAvaliacao() : l.getAvaliacao()   ))
+			.filter(l->l.getAvaliacao().ordinal()==(   licao.getAvaliacao()!=null ? licao.getAvaliacao().ordinal() : l.getAvaliacao().ordinal()   ))
 			.collect(Collectors.toList());
 	}
 	
@@ -112,7 +111,7 @@ public class LicoesController {
 		List<Licao> filtradas = new ArrayList<>();
 		ModelAndView mv = new ModelAndView("/licao/ListagemLicoes");
 		
-		if(!todasLicoes.isEmpty() && (licao.getProjeto()!=null || licao.getTipo()!=null) || licao.getCategoria()!=null) {
+		if(!todasLicoes.isEmpty() && (licao.getProjeto()!=null || licao.getTipo()!=null) || licao.getCategoria()!=null || licao.getAvaliacao()!=null) {
 			filtradas = buscaPorFiltros(licao, todasLicoes);
 			if(filtradas.isEmpty()) {
 				attributes.addFlashAttribute("mensagem", "Filtros não retornou resultados");
@@ -130,12 +129,15 @@ public class LicoesController {
 	@RequestMapping("/rank")
 	public ModelAndView rank() {
 		List<Licao> todasLicoes = licaoDao.findAll();
-		todasLicoes.sort(new Comparator<Licao>(){
+		/*todasLicoes.sort(new Comparator<Licao>(){
 			@Override
 			public int compare(Licao lhs, Licao rhs) {
 				return lhs.getAvaliacao().compareTo(rhs.getAvaliacao());
 			}
-		});
+		});*/
+		
+		todasLicoes.sort((s1, s2)-> s1.getAvaliacao().compareTo(s2.getAvaliacao()));
+		
 		
 		ModelAndView mv = new ModelAndView("/licao/RankLicoes");
 		mv.addObject("licoes", todasLicoes);
